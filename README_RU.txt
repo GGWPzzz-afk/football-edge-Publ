@@ -26,3 +26,5 @@ FOOTBALL_API_KEY = ваш личный ключ
 ФУНКЦИЯ:
 /.netlify/functions/fixtures?date=YYYY-MM-DD
 Дата по умолчанию — текущая дата Ташкента.
+
+Обновление Football Edge.
