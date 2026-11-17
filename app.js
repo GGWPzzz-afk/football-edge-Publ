@@ -160,7 +160,22 @@ function renderMatchList() {
         <span>${m.homeGoals == null ? '' : `${m.homeGoals} : ${m.awayGoals}`}</span>
       </div>
       <div class="odds">${oddsHtml}</div>
-      <div class="edge">ID матча: ${escapeHtml(m.id)} · Вероятности модели ещё не рассчитаны</div>
+      ${m.prediction ? `
+  <div class="prediction" style="margin-top:12px;padding:12px;border:1px solid var(--border,#555);border-radius:10px;">
+    <b>Прогноз Dixon–Coles</b>
+    <div class="odds" style="margin-top:8px;">
+      <div class="odd"><small>П1</small><b>${m.prediction.home.toFixed(1)}%</b></div>
+      <div class="odd"><small>X</small><b>${m.prediction.draw.toFixed(1)}%</b></div>
+      <div class="odd"><small>П2</small><b>${m.prediction.away.toFixed(1)}%</b></div>
+    </div>
+    <div class="edge">Ожидаемые голы: ${m.prediction.lambdaHome.toFixed(2)} — ${m.prediction.lambdaAway.toFixed(2)}</div>
+    <div class="edge">История: ${m.prediction.homeSample} матчей хозяев · ${m.prediction.awaySample} гостей</div>
+    <div class="edge">Предварительная оценка, не гарантия результата</div>
+  </div>
+` : `
+  <div class="edge">Прогноз пока недоступен: недостаточно статистики или данные API не получены.</div>
+`}
+<div class="edge">ID матча: ${escapeHtml(m.id)}</div>
     `;
 
     list.appendChild(card);
