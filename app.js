@@ -225,7 +225,7 @@ async function loadMatches() {
     renderMatchList();
 
     $('loadStatus').textContent =
-      `Дата: ${date}. Получено матчей: ${data.count}. ${data.oddsNote || ''}`;
+  `Дата: ${date}. Матчей: ${data.count}. Прогнозов рассчитано: ${data.modelCount ?? 0}. ${data.oddsNote || ''}`;
 
   } catch (error) {
     $('loadStatus').textContent = error.message;
