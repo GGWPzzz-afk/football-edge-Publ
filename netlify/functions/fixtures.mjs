@@ -192,8 +192,12 @@ export default async (request) => {
       )
     ];
 
+  
     const historyMap = new Map();
     let nextIndex = 0;
+    let historyRequestsOk = 0;
+    let historyRequestsFailed = 0;
+    const historyErrors = [];
 
     const workers = Array.from(
       { length: Math.min(4, teamIds.length) },
@@ -207,18 +211,23 @@ export default async (request) => {
               `/fixtures?team=${teamId}&last=5`
             );
 
-            historyMap.set(
-              teamId,
-              teamStats(result.response, teamId)
-            );
-          } catch {
+            const stats = teamStats(result.response, teamId);
+            historyMap.set(teamId, stats);
+            historyRequestsOk++;
+          } catch (error) {
+            historyRequestsFailed++;
             historyMap.set(teamId, null);
+            historyErrors.push({
+              teamId,
+              error: String(error.message || error).slice(0, 300)
+            });
           }
         }
       }
     );
 
     await Promise.all(workers);
+    
 
     for (const match of upcoming) {
       const homeStats = historyMap.get(Number(match.homeId));
