@@ -263,6 +263,16 @@ export default async (request) => {
       date,
       count: matches.length,
       modelCount: matches.filter(m => m.prediction).length,
+      upcomingForModel: upcoming.length,
+  teamsRequested: teamIds.length,
+  historyRequestsOk,
+  historyRequestsFailed,
+  teamsWithEnoughHistory: [...historyMap.values()].filter(s =>
+    s && s.games >= 3 &&
+    s.scored != null && s.conceded != null
+  ).length,
+  historyErrors: historyErrors.slice(0, 5),
+      
       matches,
       oddsNote: oddsResult.error
         ? 'Коэффициенты временно недоступны'
